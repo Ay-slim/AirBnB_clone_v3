@@ -26,6 +26,6 @@ def not_found(e):
 
 
 if __name__ == "__main__":
-    host = env_host if env_host else 5000
-    port = env_port if env_port else '0.0.0.0'
+    host = env_host if env_host else '0.0.0.0'
+    port = env_port if env_port else 5000
     app.run(host=host, port=port, threaded=True)
