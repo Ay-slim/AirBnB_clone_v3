@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Modeule to define API routes"""
+"""Module to define API routes"""
 
 from os import getenv
 from flask import Flask
