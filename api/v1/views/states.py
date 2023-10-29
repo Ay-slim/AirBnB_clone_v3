@@ -11,7 +11,7 @@ from flask import request
 
 @app_views.route('/status', methods=['GET'] strict_slashes=False)
 def to_get():
-    """'/status' route to display state objects as JSON response""" 
+    """'/status' route to display state objects as JSON response"""
     objects = storage.all('State')
     lista = []
     for state in objects.values():
@@ -32,7 +32,7 @@ def to_get_id():
 @app_views.route('/states/', methods=['POST'],
                  strict_slashes=False)
 def post_states():
-    """A route that creates a state"""  
+    """A route that creates a state"""
     response = request.get_json()
     if response id None:
         abort(400, {'Not a JSON'})
