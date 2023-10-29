@@ -42,14 +42,14 @@ class TestAmenityDocs(unittest.TestCase):
                         "amenity.py needs a docstring")
 
     def test_amenity_class_docstring(self):
-        """Test for the Amenity class docstring"""
+        """Tests for the Amenity class docstring"""
         self.assertIsNot(Amenity.__doc__, None,
                          "Amenity class needs a docstring")
         self.assertTrue(len(Amenity.__doc__) >= 1,
                         "Amenity class needs a docstring")
 
     def test_amenity_func_docstrings(self):
-        """Test for the presence of docstrings in Amenity methods"""
+        """Tests for the presence of docstrings in Amenity methods"""
         for func in self.amenity_f:
             self.assertIsNot(func[1].__doc__, None,
                              "{:s} method needs a docstring".format(func[0]))
@@ -60,7 +60,7 @@ class TestAmenityDocs(unittest.TestCase):
 class TestAmenity(unittest.TestCase):
     """Test the Amenity class"""
     def test_is_subclass(self):
-        """Test that Amenity is a subclass of BaseModel"""
+        """Tests that Amenity is a subclass of BaseModel"""
         amenity = Amenity()
         self.assertIsInstance(amenity, BaseModel)
         self.assertTrue(hasattr(amenity, "id"))
