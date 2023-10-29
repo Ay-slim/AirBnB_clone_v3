@@ -31,7 +31,13 @@ def get_state_by_id(state_id):
                  strict_slashes=False)
 def post_states():
     """A route that creates a state"""
-    req_body = request.get_json()
+    req_body = None
+    try:
+        req_body = request.get_json()
+        if not req_body:
+            raise TypeError("Invalid")
+    except Exception:
+        abort(400, {'Not a JSON'})
     if not req_body:
         abort(400, {'Not a JSON'})
     if "name" not in req_body:
@@ -46,8 +52,12 @@ def post_states():
                  strict_slashes=False)
 def put_state(state_id):
     """This route updates state as JSON response"""
-    req_body = request.get_json()
-    if not req_body:
+    req_body = None
+    try:
+        req_body = request.get_json()
+        if not req_body:
+            raise TypeError("Invalid")
+    except Exception:
         abort(400, {'Not a JSON'})
     stateObject = storage.get(State, state_id)
     if stateObject is None:
