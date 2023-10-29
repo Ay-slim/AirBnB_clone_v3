@@ -1,11 +1,11 @@
-!/usr/bin/python3
-"""A module that create Place and amenity objects for API"""
-import os
+#!/usr/bin/python3
+"""A flask application that create Place and amenity objects for API"""
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models import storage
 from models.amenity import Amenity
 from models.place import Place
+import os
 
 
 @app_views.route('/places/<string:place_id>/amenities', methods=['GET'],
