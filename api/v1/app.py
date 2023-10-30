@@ -10,15 +10,15 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-app.register_blueprint(app_views)
-cors = CORS(app, resources={"/*": {"origins": "0.0.0.0"}})
+app.register_blueprint(app_views, url_prefix='/api/v1')
+cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
 def app_teardown(exception):
     """Tear down method implementation"""
     storage.close()
-
+git
 
 @app.errorhandler(404)
 def not_found(error):
@@ -28,5 +28,5 @@ def not_found(error):
 
 if __name__ == "__main__":
     env_host = getenv('HBNB_API_HOST', '0.0.0.0')
-    env_port = getenv('HBNB_API_PORT', '5000')
+    env_port = getenv('HBNB_API_PORT', 5000)
     app.run(host=env_host, port=env_port, threaded=True)
