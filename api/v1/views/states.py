@@ -38,8 +38,6 @@ def post_states():
             raise TypeError("Invalid")
     except Exception:
         abort(400, {'Not a JSON'})
-    if not req_body:
-        abort(400, {'Not a JSON'})
     if "name" not in req_body:
         abort(400, {'Missing name'})
     new_state_obj = State(name=req_body['name'])
