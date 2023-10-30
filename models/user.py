@@ -28,13 +28,15 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+        if 'password' in kwargs:
+            self.password = hashlib.md5(kwargs['password'].encode()
+                                        ).hexdigest()
+        elif 'password' in self.__dict__:
+            self.password = hashlib.md5(self.password.encode()).hexdigest()
 
-    @property
-    def password(self):
-        """Checks for password"""
-        return self._password
-
-    @password.setter
-    def password(self, pwd):
-        """Hashing password values using MD5"""
-        self._password = hashlib.md5(pwd.encode()).hexdigest()
+    def to_dict(self, save_to_disk=False):
+        """Returns a dictionary containing user information"""
+        user_dict = super().to_dict(save_to_disk)
+        if not save_to_disk:
+            user_dict.pop('password', None)
+        return user_dict
