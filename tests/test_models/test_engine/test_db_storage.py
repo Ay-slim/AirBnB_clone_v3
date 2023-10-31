@@ -87,6 +87,24 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that get fetches a given instance"""
+        storage = models.storage
+        test_state_inst = State()
+        test_state_inst.name = "Test state"
+        storage.new(test_state_inst)
+        storage.save()
+        self.assertTrue(
+                test_state_inst is storage.get(State, test_state_inst.id))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test that count returns the number of instances"""
+        storage = models.storage
+        self.assertEqual(len(storage.all()), storage.count())
+        self.assertEqual(len(storage.all(State)), storage.count(State))
+
 
 class TestDBStorage(unittest.TestCase):
     """Test the DBStorage class"""
@@ -95,24 +113,24 @@ class TestDBStorage(unittest.TestCase):
                      "not testing db storage")
     def test_get(self):
         """Test that get returns specific object, or none"""
-        new_state = State(name="New York")
-        new_state.save()
-        new_user = User(email="bob@foobar.com", password="password")
-        new_user.save()
-        self.assertIs(new_state, models.storage.get("State", new_state.id))
+        newState = State(name="New York")
+        newState.save()
+        newUser = User(email="bob@foobar.com", password="password")
+        newUser.save()
+        self.assertIs(newState, models.storage.get("State", newState.id))
         self.assertIs(None, models.storage.get("State", "blah"))
         self.assertIs(None, models.storage.get("blah", "blah"))
-        self.assertIs(new_user, models.storage.get("User", new_user.id))
+        self.assertIs(newUser, models.storage.get("User", newUser.id))
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "not testing db storage")
     def test_count(self):
-        """To add new object to db"""
-        start_count = models.storage.count()
+        """add new object to db"""
+        startCount = models.storage.count()
         self.assertEqual(models.storage.count("Blah"), 0)
-        new_state = State(name="Montevideo")
-        new_state.save()
-        new_user = User(email="bob@foobar.com", password="password")
-        new_user.save()
-        self.assertEqual(models.storage.count("State"), start_count + 1)
-        self.assertEqual(models.storage.count(), start_count + 2)
+        newState = State(name="Montevideo")
+        newState.save()
+        newUser = User(email="ralexrivero@gmail.com.com", password="dummypass")
+        newUser.save()
+        self.assertEqual(models.storage.count("State"), startCount + 1)
+        self.assertEqual(models.storage.count(), startCount + 2)
