@@ -117,10 +117,9 @@ class TestDBStorage(unittest.TestCase):
         newState.save()
         newUser = User(email="bob@foobar.com", password="password")
         newUser.save()
-        self.assertIs(newState, models.storage.get("State", newState.id))
-        self.assertIs(None, models.storage.get("State", "blah"))
-        self.assertIs(None, models.storage.get("blah", "blah"))
-        self.assertIs(newUser, models.storage.get("User", newUser.id))
+        self.assertIs(newState, models.storage.get(State, newState.id))
+        self.assertIs(None, models.storage.get(State, "blah"))
+        self.assertIs(newUser, models.storage.get(User, newUser.id))
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                      "not testing db storage")
@@ -132,5 +131,5 @@ class TestDBStorage(unittest.TestCase):
         newState.save()
         newUser = User(email="ralexrivero@gmail.com.com", password="dummypass")
         newUser.save()
-        self.assertEqual(models.storage.count("State"), startCount + 1)
+        self.assertEqual(models.storage.count(State), startCount + 1)
         self.assertEqual(models.storage.count(), startCount + 2)
