@@ -2,11 +2,11 @@
 """
 Contains the class TestConsoleDocs
 """
-import console
-from contextlib import redirect_stdout
-import inspect
 import io
 import os
+from contextlib import redirect_stdout
+import console
+import inspect
 import pep8
 import unittest
 HBNBCommand = console.HBNBCommand
