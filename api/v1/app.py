@@ -18,7 +18,7 @@ cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 def app_teardown(exception):
     """Tear down method implementation"""
     storage.close()
-git
+
 
 @app.errorhandler(404)
 def not_found(error):
