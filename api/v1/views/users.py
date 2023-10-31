@@ -13,7 +13,9 @@ def get_all_users():
     objects = storage.all(User)
     users = []
     for user in objects.values():
-        users.append(user.to_dict())
+        user_dict = user.to_dict()
+        user_dict.pop('password', None)
+        users.append(user_dict)
     return jsonify(users)
 
 
@@ -24,7 +26,9 @@ def get_user_by_id(user_id):
     userObject = storage.get(User, user_id)
     if userObject is None:
         abort(404)
-    return jsonify(userObject.to_dict())
+    user_dict = userObject.to_dict()
+    user_dict.pop('password', None)
+    return jsonify(user_dict)
 
 
 @app_views.route('/users', methods=['POST'],
