@@ -128,18 +128,26 @@ class TestFileStorage(unittest.TestCase):
         get_result = storage.get(state_obj, instance.id)
         self.assertEqual(get_result, instance)
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count(self):
-        """Test that the count if function works as expected"""
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
+    def test_get(self):
+        """Test that the get method properly retrievs objects"""
         storage = FileStorage()
-        new_dict = {}
-        for key, value in classes.items():
-            instance = value()
-            instance_key = instance.__class__.__name__ + "." + instance.id
-            new_dict[instance_key] = instance
-        FileStorage._TestFileStorage__objects = new_dict
-        FileStorage._FileStorage__objects = new_dict
-        obj_count = storage.count()
-        obj_single_count = storage.count(classes['State'])
-        self.assertEqual(obj_count, 7)
-        self.assertEqual(obj_single_count, 1)
+        self.assertIs(storage.get("User", "blah"), None)
+        self.assertIs(storage.get("blah", "blah"), None)
+        new_user = User()
+        new_user.save()
+        self.assertIs(storage.get("User", new_user.id), new_user)
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
+    def test_count(self):
+        storage = FileStorage()
+        start_length = len(storage.all())
+        self.assertEqual(storage.count(), start_length)
+        state_len = len(storage.all("State"))
+        self.assertEqual(storage.count("State"), state_len)
+        new_state = State()
+        new_state.save()
+        self.assertEqual(storage.count(), start_length + 1)
+        self.assertEqual(storage.count("State"), state_len + 1)
