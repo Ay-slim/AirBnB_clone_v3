@@ -1,11 +1,10 @@
 #!/usr/bin/python3
-"""Module that handles status route declaration"""
+"""Flask application that handles status route declaration"""
 
 from api.v1.views import app_views
 from flask import jsonify
 import models
 from models import storage
-from models.base_model import BaseModel
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
@@ -20,18 +19,18 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
 def stats_count():
-    """'/stats' route that retrieves and display json Responses"""
+    """'/api/v1/stats' route that retrieves and displays JSON responses"""
     classes = {
-            "amenities": Amenity,
-            "cities": City,
-            "places": Place,
-            "reviews": Review,
-            "states": State,
-            "users": User
-            }
-    todos = {}
+        "amenities": Amenity,
+        "cities": City,
+        "places": Place,
+        "reviews": Review,
+        "states": State,
+        "users": User
+    }
+    counts = {}
     for key, val in classes.items():
-        todos[key] = storage.count(val)
-    return jsonify(todos)
+        counts[key] = storage.count(val)
+    return jsonify(counts)
