@@ -10,27 +10,23 @@ from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
-from models.user import User
+from models.user import user
 
 
-@app_views.route('/status', strict_slashes=False)
-def status():
-    """Function to execute status route logic"""
+@app_views.route("/status", strict_slashes=False)
+def view_status():
+    """View function that return a json message"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
-def stats_count():
-    """'/api/v1/stats' route that retrieves and displays JSON responses"""
-    classes = {
-        "amenities": Amenity,
-        "cities": City,
-        "places": Place,
-        "reviews": Review,
-        "states": State,
-        "users": User
-    }
-    counts = {}
-    for key, val in classes.items():
-        counts[key] = storage.count(val)
-    return jsonify(counts)
+@app_views.route("/stats", strict_slashes=False)
+def view_stats():
+    """Veiw function that retrieves the number of each object by type"""
+    return jsonify({
+        "amenities": models.storage.count(Amenity),
+        "cities": models.storage.count(City),
+        "places": models.storage.count(Place),
+        "reviews": models.storage.count(Review),
+        "states": models.storage.count(State),
+        "users": models.storage.count(User)
+    })
