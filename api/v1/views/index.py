@@ -15,13 +15,13 @@ from models.user import user
 
 @app_views.route("/status", strict_slashes=False)
 def view_status():
-    """View function that return a json message"""
+    """ View function that return a json message."""
     return jsonify({"status": "OK"})
 
 
 @app_views.route("/stats", strict_slashes=False)
 def view_stats():
-    """Veiw function that retrieves the number of each object by type"""
+    """ Veiw function that retrieves the number of each object by type."""
     return jsonify({
         "amenities": models.storage.count(Amenity),
         "cities": models.storage.count(City),
